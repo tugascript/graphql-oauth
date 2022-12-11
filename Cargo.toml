@@ -1,0 +1,39 @@
+[package]
+name = "graphql-local-oauth"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "Apache-2.0"
+authors = ["Afonso Barracha <barracha.afonso@gmail.com>"]
+
+[workspace]
+members = [".", "entities", "migrations"]
+ 
+[dependencies]
+entities = { path = "entities" }
+migrations = { path = "migrations" }
+actix-web = "^4"
+chrono = "^0.4"
+serde = "^1"
+sea-orm = { version = "^0.10", features = ["sqlx-postgres", "sqlx-sqlite", "runtime-actix-native-tls"] }
+redis = { version = "^0.22", features = ["tokio-comp", "tokio-native-tls-comp"] }
+async-graphql = { version = "^5", features = ["dataloader"]}
+async-graphql-actix-web = "^5"
+regex = "^1"
+tokio = { version = "^1", features = ["macros", "rt-multi-thread"] }
+lettre = { version = "^0.10", features = [
+    "builder",
+    "tokio1-native-tls",
+] }
+jsonwebtoken = "^8"
+argon2 = { version = "^0.4", features = ["std"] }
+bcrypt = "^0.13"
+rand = { version = "^0.8", features = ["std_rng"] }
+uuid = { version = "^1", features = [
+    "v4",
+    "v5",
+    "fast-rng",
+    "macro-diagnostics",
+] }
+dotenvy = "^0.15"
+unicode-segmentation = "^1"
