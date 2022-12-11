@@ -10,13 +10,13 @@ use graphql_local_oauth::{
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
-    let env_type = env::var("ENV_TYPE").unwrap();
     let cache = Cache::new();
-    let db = Database::new(&env_type).await;
+    let db = Database::new().await;
     let jwt = Jwt::new();
     let mailer = Mailer::new();
     let env_copy = env_type.clone();
     let port = env::var("PORT").unwrap().parse::<u16>().unwrap();
+    let env_type = env::var("ENV_TYPE").unwrap();
 
     HttpServer::new(move || {
         App::new().configure(configure_app(&cache, &db, &jwt, &mailer, &env_type))
