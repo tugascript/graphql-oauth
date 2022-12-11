@@ -11,5 +11,9 @@ path = "src/lib.rs"
 
 [dependencies]
 entities = { path = "../entities" }
-sea-orm-migration = { version = "^0.10", features = ["sqlx-postgres", "runtime-actix-native-tls"] }
 async-std = { version = "^1", features = ["attributes", "tokio1"] }
+
+[dependencies.sea-orm-migration]
+version = "^0.10"
+features = [ "runtime-actix-native-tls", "sqlx-postgres" ]
+

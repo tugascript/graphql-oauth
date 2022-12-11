@@ -14,9 +14,9 @@ async fn main() -> std::io::Result<()> {
     let db = Database::new().await;
     let jwt = Jwt::new();
     let mailer = Mailer::new();
-    let env_copy = env_type.clone();
     let port = env::var("PORT").unwrap().parse::<u16>().unwrap();
     let env_type = env::var("ENV_TYPE").unwrap();
+    let env_copy = env_type.clone();
 
     HttpServer::new(move || {
         App::new().configure(configure_app(&cache, &db, &jwt, &mailer, &env_type))

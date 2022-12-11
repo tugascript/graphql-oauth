@@ -1,4 +1,3 @@
-use migrations::{Migrator, MigratorTrait};
 use sea_orm::DatabaseConnection;
 
 #[derive(Clone)]
@@ -12,11 +11,6 @@ impl Database {
         let connection = sea_orm::Database::connect(con_str)
             .await
             .expect("Could not connect to database");
-        if environment != "production" {
-            Migrator::up(&connection, None)
-                .await
-                .expect("Could not run migrations");
-        }
 
         Database { connection }
     }
