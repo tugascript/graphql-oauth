@@ -1,0 +1,15 @@
+[package]
+name = "migrations"
+version = "0.1.0"
+edition = "2021"
+publish = false
+authors = ["Afonso Barracha <barracha.afonso@gmail.com>"]
+
+[lib]
+name = "migrations"
+path = "src/lib.rs"
+
+[dependencies]
+entities = { path = "../entities" }
+sea-orm-migration = { version = "^0.10", features = ["sqlx-postgres", "sqlx-sqlite", "runtime-actix-native-tls"] }
+async-std = { version = "^1", features = ["attributes", "tokio1"] }
