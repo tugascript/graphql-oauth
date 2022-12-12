@@ -1,0 +1,94 @@
+schema {
+  query: QueryRoot
+  mutation: MutationRoot
+}
+
+"""
+The `_Any` scalar is used to pass representations of entities from external
+services into the root `_entities` field for execution.
+"""
+scalar _Any
+
+union _Entity = User
+
+type _Service {
+  sdl: String
+}
+
+type AuthType {
+  user: User!
+  accessToken: String!
+}
+
+input ChangeEmailInput {
+  newEmail: String!
+  password: String!
+}
+
+input ChangePasswordInput {
+  oldPassword: String!
+  password1: String!
+  password2: String!
+}
+
+input ConfirmLoginInput {
+  email: String!
+  code: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+union LoginType = Message | AuthType
+
+type Message {
+  id: String!
+  message: String!
+}
+
+type MutationRoot {
+  deleteAccount(password: String!): Message!
+  register(input: RegisterInput!): Message!
+  confirmAccount(token: String!): AuthType!
+  login(input: LoginInput!): LoginType!
+  confirmLogin(input: ConfirmLoginInput!): AuthType!
+  resetPasswordEmail(email: String!): Message!
+  resetPassword(input: ResetPasswordInput!): Message!
+  changePassword(input: ChangePasswordInput!): AuthType!
+  changeEmail(input: ChangeEmailInput!): AuthType!
+  logout: Message!
+  refreshAccess: AuthType!
+}
+
+type QueryRoot {
+  healthCheck: String!
+  me: User!
+  _service: _Service!
+  _entities(representations: [_Any!]!): [_Entity]!
+}
+
+input RegisterInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password1: String!
+  password2: String!
+}
+
+input ResetPasswordInput {
+  token: String!
+  password1: String!
+  password2: String!
+}
+
+type User {
+  id: ID!
+  email: String!
+  firstName: String!
+  lastName: String!
+  createTimestamp: Int!
+  updatedTimestamp: Int!
+}
+
