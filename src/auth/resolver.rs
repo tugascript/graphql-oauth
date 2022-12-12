@@ -4,14 +4,14 @@ use crate::common::models::Message;
 
 use super::{
     dtos::{
-        ChangeEmailInput, ChangePasswordInput, ChangePasswordValidator, LoginInput, RegisterInput,
-        RegisterValidator, ResetPasswordInput, ResetPasswordValidator,
+        ChangeEmailInput, ChangePasswordInput, ChangePasswordValidator, ConfirmLoginInput,
+        LoginInput, RegisterInput, RegisterValidator, ResetPasswordInput, ResetPasswordValidator,
     },
     guards::AuthGuard,
     models::{AuthType, LoginType},
     service::{
-        change_email, change_password, confirm_user, login_user, logout, refresh_access,
-        register_user, reset_password, reset_password_email,
+        change_email, change_password, confirm_login, confirm_user, login_user, logout,
+        refresh_access, register_user, reset_password, reset_password_email,
     },
 };
 
@@ -42,6 +42,10 @@ impl AuthMutation {
 
     async fn login(&self, ctx: &Context<'_>, input: LoginInput) -> Result<LoginType> {
         login_user(ctx, input).await
+    }
+
+    async fn confirm_login(&self, ctx: &Context<'_>, input: ConfirmLoginInput) -> Result<AuthType> {
+        confirm_login(ctx, input).await
     }
 
     async fn reset_password_email(
