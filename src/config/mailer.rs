@@ -1,5 +1,4 @@
 use async_graphql::{Error, Result};
-use entities::user::Model;
 use lettre::{
     transport::smtp::authentication::Credentials, AsyncSmtpTransport, AsyncTransport, Message,
     Tokio1Executor,
@@ -50,13 +49,17 @@ impl Mailer {
         }
     }
 
-    pub async fn send_confirmation_email(&self, model: Model, jwt: &str) -> Result<()> {
+    pub async fn send_confirmation_email(
+        &self,
+        email: &str,
+        full_name: &str,
+        jwt: &str,
+    ) -> Result<()> {
         let link = format!("{}/confirmation/{}", self.front_end_url, &jwt);
-        let full_name = model.get_full_name();
 
         self.send_email(
-            model.email,
-            format!("Email confirmation, {}", &full_name),
+            email.to_owned(),
+            format!("Email confirmation, {}", full_name),
             format!(
                 r#"
             <body>
@@ -77,7 +80,7 @@ impl Mailer {
               <p>Your Company Team</p>
             </body>
           "#,
-                &full_name, &link, &link,
+                full_name, &link, &link,
             ),
         )
         .await

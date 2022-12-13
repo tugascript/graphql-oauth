@@ -22,7 +22,7 @@ pub async fn send_confirmation_email(
 
     if ctx.data::<Environment>()?.0 == "production" {
         ctx.data::<Mailer>()?
-            .send_confirmation_email(user.to_owned(), &confirmation_token)
+            .send_confirmation_email(&user.email, &user.get_full_name(), &confirmation_token)
             .await?;
 
         return Ok(None);
