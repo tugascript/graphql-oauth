@@ -8,9 +8,9 @@ use std::env;
 
 #[derive(Debug, Clone)]
 pub struct Mailer {
-    pub email: String,
-    pub front_end_url: String,
-    pub mailer: AsyncSmtpTransport<Tokio1Executor>,
+    email: String,
+    front_end_url: String,
+    mailer: AsyncSmtpTransport<Tokio1Executor>,
 }
 
 impl Mailer {
