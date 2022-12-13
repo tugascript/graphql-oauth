@@ -20,13 +20,13 @@ pub async fn send_confirmation_email(
         &jwt.api_id,
     )?;
 
-    if ctx.data::<Environment>()?.0 == "production" {
-        ctx.data::<Mailer>()?
-            .send_confirmation_email(&user.email, &user.get_full_name(), &confirmation_token)
-            .await?;
-
-        return Ok(None);
+    match ctx.data::<Environment>()? {
+        Environment::Development => return Ok(Some(confirmation_token)),
+        Environment::Production => {
+            ctx.data::<Mailer>()?
+                .send_confirmation_email(&user.email, &user.get_full_name(), &confirmation_token)
+                .await?;
+            return Ok(None);
+        }
     }
-
-    Ok(Some(confirmation_token))
 }

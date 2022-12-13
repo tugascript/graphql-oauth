@@ -20,7 +20,10 @@ pub fn create_auth_tokens(ctx: &Context<'_>, jwt: &Jwt, user: &Model) -> Result<
             .path("/api/graphql")
             .max_age(Duration::seconds(jwt.refresh.exp))
             .http_only(true)
-            .secure(ctx.data::<Environment>()?.0 == "production")
+            .secure(match ctx.data::<Environment>()? {
+                Environment::Development => false,
+                Environment::Production => true,
+            })
             .finish()
             .to_string(),
     );

@@ -15,7 +15,10 @@ use crate::{
 };
 
 #[derive(Clone)]
-pub struct Environment(pub String);
+pub enum Environment {
+    Development,
+    Production,
+}
 
 #[derive(MergedObject, Default)]
 pub struct MutationRoot(UsersMutation, AuthMutation);
@@ -121,7 +124,10 @@ pub fn build_schema(
     .data(db.to_owned())
     .data(jwt.to_owned())
     .data(mailer.to_owned())
-    .data(Environment(environment.to_string()))
+    .data(match environment {
+        "production" => Environment::Production,
+        _ => Environment::Development,
+    })
     .enable_federation()
     .finish()
 }

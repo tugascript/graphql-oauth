@@ -124,16 +124,17 @@ pub async fn login_user(ctx: &Context<'_>, input: LoginInput) -> Result<LoginTyp
             .set_ex(format!("2F_{}", user.id.to_string()), hash, 900)
             .await?;
 
-        if ctx.data::<Environment>()?.0 == "production" {
-            ctx.data::<Mailer>()?
-                .send_access_email(&user.email, &user.get_full_name(), &code)
-                .await?;
-            return Ok(LoginType::Message(Message::new(
-                "Login code sent to your email",
-            )));
+        match ctx.data::<Environment>()? {
+            Environment::Development => return Ok(LoginType::Message(Message::new(&code))),
+            Environment::Production => {
+                ctx.data::<Mailer>()?
+                    .send_access_email(&user.email, &user.get_full_name(), &code)
+                    .await?;
+                return Ok(LoginType::Message(Message::new(
+                    "Login code sent to your email",
+                )));
+            }
         }
-
-        return Ok(LoginType::Message(Message::new(&code)));
     }
 
     Ok(LoginType::Auth(AuthType::new(
@@ -196,15 +197,16 @@ pub async fn reset_password_email(ctx: &Context<'_>, email: String) -> Result<Me
         &jwt.api_id,
     )?;
 
-    if ctx.data::<Environment>()?.0 == "production" {
-        ctx.data::<Mailer>()?
-            .send_password_reset_email(&user.email, &user.get_full_name(), &token)
-            .await?;
+    match ctx.data::<Environment>()? {
+        Environment::Development => return Ok(Message::new(&token)),
+        Environment::Production => {
+            ctx.data::<Mailer>()?
+                .send_password_reset_email(&user.email, &user.get_full_name(), &token)
+                .await?;
 
-        return Ok(Message::new("Reset password email sent"));
+            return Ok(Message::new("Reset password email sent"));
+        }
     }
-
-    Ok(Message::new(&token))
 }
 
 /**
