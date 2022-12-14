@@ -1,6 +1,6 @@
 use crate::{config::Jwt, gql_set_up::Environment};
 
-use super::{create_token, TokenType};
+use super::{create_access_token, create_token, TokenType};
 use actix_web::{cookie::time::Duration, cookie::Cookie, http::header::SET_COOKIE};
 use async_graphql::{Context, Result};
 use entities::user::Model;
@@ -27,11 +27,5 @@ pub fn create_auth_tokens(ctx: &Context<'_>, jwt: &Jwt, user: &Model) -> Result<
             .finish()
             .to_string(),
     );
-    create_token(
-        TokenType::Access,
-        user,
-        &jwt.access.private_key,
-        jwt.access.exp,
-        &jwt.api_id,
-    )
+    create_access_token(user, &jwt.access.private_key, jwt.access.exp, &jwt.api_id)
 }

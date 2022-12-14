@@ -1,12 +1,12 @@
 use async_graphql::{Context, Error, Result};
 
 use crate::{
-    auth::helpers::{decode_access_token, AuthUser},
+    auth::helpers::{decode_access_token, AccessToken},
     config::Jwt,
     gql_set_up::AuthTokens,
 };
 
-pub fn get_access_user(ctx: &Context<'_>) -> Result<AuthUser> {
+pub fn get_access_user(ctx: &Context<'_>) -> Result<AccessToken> {
     let tokens = ctx.data::<AuthTokens>()?;
     let access_token = tokens
         .access_token
