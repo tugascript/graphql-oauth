@@ -15,10 +15,6 @@ pub fn jwt_regex() -> Regex {
     Regex::new(r"^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$").unwrap()
 }
 
-pub fn slug_regex() -> Regex {
-    Regex::new(r"^[a-z\d]+(?:(\.|-)[a-z\d]+)*$").unwrap()
-}
-
 pub fn new_line_regex() -> Regex {
     Regex::new(r"\n").unwrap()
 }
