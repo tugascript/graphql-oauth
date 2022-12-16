@@ -66,7 +66,7 @@ impl Claims {
 
         match claims {
             Ok(s) => Ok(s.claims.user),
-            _ => Err(Error::from("Invalid token")),
+            Err(_) => Err(Error::from("Invalid token")),
         }
     }
 }
@@ -153,7 +153,7 @@ impl AccessClaims {
 
         match claims {
             Ok(s) => Ok(s.claims.user),
-            _ => Err(Error::from("Invalid token")),
+            Err(_) => Err(Error::from("Invalid token")),
         }
     }
 }
