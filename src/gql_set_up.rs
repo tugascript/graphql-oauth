@@ -27,32 +27,23 @@ pub struct MutationRoot(UsersMutation, AuthMutation);
 pub struct QueryRoot(CommonQuery, UsersQuery);
 
 fn get_access_token_from_headers(headers: &HeaderMap) -> Option<String> {
-    let auth_header = headers.get("Authorization");
+    let auth_header = match headers.get("Authorization") {
+        Some(ah) => ah,
+        None => return None,
+    };
+    let auth_header = match auth_header.to_str() {
+        Ok(ah) => ah,
+        Err(_) => return None,
+    };
 
-    if auth_header.is_none() {
+    if auth_header.is_empty() || !auth_header.starts_with("Bearer ") {
         return None;
     }
 
-    let auth_header = auth_header.unwrap();
-
-    if auth_header.is_empty() {
-        return None;
-    }
-
-    let auth_header = auth_header.to_str().unwrap();
-
-    if !auth_header.starts_with("Bearer ") {
-        return None;
-    }
-
-    let token_arr: Vec<&str> = auth_header.split_whitespace().collect();
-    let token = token_arr.get(1);
-
-    if token.is_none() {
-        return None;
-    }
-
-    let token = token.unwrap().to_owned();
+    let token = match auth_header.split_whitespace().last() {
+        Some(t) => t,
+        None => return None,
+    };
 
     if token.is_empty() {
         return None;
@@ -62,17 +53,15 @@ fn get_access_token_from_headers(headers: &HeaderMap) -> Option<String> {
 }
 
 fn get_refresh_token_from_cookie(cookie: Option<Cookie>) -> Option<String> {
-    if cookie.is_none() {
-        return None;
+    if let Some(cookie) = cookie {
+        if cookie.value().is_empty() {
+            return None;
+        }
+
+        Some(cookie.value().to_string())
+    } else {
+        None
     }
-
-    let cookie = cookie.unwrap();
-
-    if cookie.value().is_empty() {
-        return None;
-    }
-
-    Some(cookie.value().to_string())
 }
 
 pub struct AuthTokens {
