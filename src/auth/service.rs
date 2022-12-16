@@ -145,6 +145,7 @@ pub async fn login_user(ctx: &Context<'_>, input: LoginInput) -> Result<LoginTyp
 
 /**
  Confirm Login (GraphQL Mutation)
+
  Takes the login code and if it matches the one in the cache, creates a new auth tokens and
  sends the access token to the front-end.
 */
