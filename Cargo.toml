@@ -28,7 +28,7 @@ lettre = { version = "^0.10", features = [
 jsonwebtoken = "^8"
 argon2 = { version = "^0.4", features = ["std"] }
 bcrypt = "^0.13"
-rand = { version = "^0.8", features = ["std_rng"] }
+rand = { version = "^0.8.5", features = ["std_rng"] }
 uuid = { version = "^1", features = [
     "v4",
     "v5",
