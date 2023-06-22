@@ -18,7 +18,7 @@ serde = "^1"
 sea-orm = { version = "^0.10", features = ["sqlx-postgres", "runtime-actix-native-tls"] }
 redis = { version = "^0.22", features = ["tokio-comp", "tokio-native-tls-comp"] }
 async-graphql = { version = "^5", features = ["dataloader"] }
-async-graphql-actix-web = "^5"
+async-graphql-actix-web = "^5.0.10"
 regex = "^1"
 tokio = { version = "^1", features = ["macros", "rt-multi-thread"] }
 lettre = { version = "^0.10", features = [
