@@ -35,5 +35,5 @@ uuid = { version = "^1", features = [
     "fast-rng",
     "macro-diagnostics",
 ] }
-dotenvy = "^0.15"
+dotenvy = "^0.15.7"
 unicode-segmentation = "^1"
