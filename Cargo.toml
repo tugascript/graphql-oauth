@@ -26,7 +26,7 @@ lettre = { version = "^0.10", features = [
     "tokio1-native-tls",
 ] }
 jsonwebtoken = "^8"
-argon2 = { version = "^0.4", features = ["std"] }
+argon2 = { version = "^0.5.3", features = ["std"] }
 bcrypt = "^0.13"
 rand = { version = "^0.8", features = ["std_rng"] }
 uuid = { version = "^1", features = [
