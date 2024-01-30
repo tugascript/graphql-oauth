@@ -21,7 +21,7 @@ async-graphql = { version = "^5", features = ["dataloader"] }
 async-graphql-actix-web = "^5"
 regex = "^1"
 tokio = { version = "^1", features = ["macros", "rt-multi-thread"] }
-lettre = { version = "^0.10", features = [
+lettre = { version = "^0.11.4", features = [
     "builder",
     "tokio1-native-tls",
 ] }
