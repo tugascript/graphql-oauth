@@ -13,7 +13,7 @@ members = [".", "entities", "migrations"]
 entities = { path = "entities" }
 migrations = { path = "migrations" }
 actix-web = "^4"
-chrono = "^0.4"
+chrono = "^0.4.35"
 serde = "^1"
 sea-orm = { version = "^0.10", features = ["sqlx-postgres", "runtime-actix-native-tls"] }
 redis = { version = "^0.22", features = ["tokio-comp", "tokio-native-tls-comp"] }
